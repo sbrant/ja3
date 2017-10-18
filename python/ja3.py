@@ -19,6 +19,7 @@ import binascii
 import socket
 import argparse
 import json
+import datetime
 
 DEBUG = False
 TLS_HANDSHAKE = 22
@@ -215,7 +216,8 @@ def print_ja3_hashes(cap, any_port=False, print_json=False):
             ja3 = ",".join(ja3)
             ja_digest = md5(ja3.encode()).hexdigest()
             if print_json:
-                record = {"src":convert_ip(ip.src), "dst":convert_ip(ip.dst), "spt":tcp.sport, "dpt":tcp.dport, "ja3":ja_digest}
+               # record = {"src":convert_ip(ip.src), "dst":convert_ip(ip.dst), "spt":tcp.sport, "dpt":tcp.dport, "ja3":ja_digest}
+                record = {"timestamp":str(datetime.datetime.utcfromtimestamp(ts)), "src":convert_ip(ip.src), "dst":convert_ip(ip.dst), "spt":tcp.sport, "dpt":tcp.dport, "ja3":ja_digest}
                 print json.dumps(record)
             else:
                 print("[%s:%s] JA3: %s --> %s" % (
